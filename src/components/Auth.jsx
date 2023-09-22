@@ -1,7 +1,12 @@
+/* eslint-disable no-unused-vars */
 import { useState } from 'react'
-import { auth } from '../config/firebase'
-import { createUserWithEmailAndPassword } from 'firebase/auth';
+import { auth, googleProvider } from '../config/firebase'
+import {
+    createUserWithEmailAndPassword,
+    signInWithPopup,
+    signOut,
 
+} from 'firebase/auth';
 
 
 
@@ -18,6 +23,22 @@ export default function Auth() {
         }
     }
 
+    const signInWithGoogle = async () => {
+        try {
+            await signInWithPopup(auth, googleProvider);
+        } catch (error) {
+            console.error(error)
+        }
+    };
+
+    const logOut = async () => {
+        try {
+            await signOut(auth)
+        } catch (error) {
+            console.error(error)
+        }
+    }
+
 
   return (
       <div>
@@ -30,7 +51,10 @@ export default function Auth() {
               placeholder='pasword..'
               onChange={(e) => setPassword(e.target.value)}
           />
+
           <button onClick={signIn}> Sign In</button>
+          <button onClick={signInWithGoogle}>signInWithGoogle</button>
+          <button onClick={logOut}>logOut</button>
 
     </div>
   )
